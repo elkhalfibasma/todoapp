@@ -10,7 +10,7 @@ connection_string = (
     "Initial Catalog=TaskDB;"
     "Persist Security Info=False;"
     "User ID=basma;"
-    "Password=Hamza@1234;"  # Remplace par ton mot de passe réel si différent
+    "Password=Hamza@1234;"  # Vérifie que ce mot de passe est correct
     "MultipleActiveResultSets=False;"
     "Encrypt=True;"
     "TrustServerCertificate=False;"
@@ -40,7 +40,7 @@ def task_list():
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM Tasks")
-        tasks = cursor.fetchall()
+        tasks = [{'id': row[0], 'description': row[1], 'completed': row[2]} for row in cursor.fetchall()]  # Ajuste les indices selon ta table
         cursor.close()
         conn.close()
         return render_template('tasks.html', tasks=tasks)
@@ -82,7 +82,8 @@ def edit(id):
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM Tasks WHERE id=?", (id,))
-        task = cursor.fetchone()
+        row = cursor.fetchone()
+        task = {'id': row[0], 'description': row[1], 'completed': row[2]} if row else None  # Ajuste les indices
         cursor.close()
         conn.close()
         return render_template('edit.html', task=task)
