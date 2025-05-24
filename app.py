@@ -4,18 +4,18 @@ import os
 
 app = Flask(__name__)
 
-# Chaîne de connexion Azure SQL Database
 connection_string = (
-    "Server=tcp:taskbasma.database.windows.net,1433;"
-    "Initial Catalog=TaskDB;"
-    "Persist Security Info=False;"
-    "User ID=basma;"
-    "Password=Hamza@1234;"  # Vérifie que ce mot de passe est correct
-    "MultipleActiveResultSets=False;"
-    "Encrypt=True;"
-    "TrustServerCertificate=False;"
-    "Connection Timeout=30;"
+    f"Server=tcp:taskbasma.database.windows.net,1433;"
+    f"Initial Catalog=TaskDB;"
+    f"Persist Security Info=False;"
+    f"User ID=basma;"
+    f"Password={os.environ.get('DB_PASSWORD')};"
+    f"MultipleActiveResultSets=False;"
+    f"Encrypt=True;"
+    f"TrustServerCertificate=False;"
+    f"Connection Timeout=30;"
 )
+
 
 def get_db_connection():
     """Crée et retourne une connexion à la base de données."""
