@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des tâches</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Mes tâches</h1>
+        <a class="button" href="{{ url_for('create') }}">➕ Ajouter une tâche</a>
+        <ul>
+            {% for task in tasks %}
+                <li class="{{ 'completed' if task.completed else '' }}">
+                    {{ task.description }}
+                    <div class="actions">
+                        <a href="{{ url_for('edit', id=task.id) }}">✏️</a>
+                        <a href="{{ url_for('delete', id=task.id) }}" onclick="return confirm('Supprimer cette tâche ?');">🗑️</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

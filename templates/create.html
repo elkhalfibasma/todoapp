@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Créer une tâche</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Nouvelle tâche</h1>
+        <form method="POST">
+            <input type="text" name="description" placeholder="Description de la tâche" required>
+            <button type="submit">Créer</button>
+        </form>
+        <a href="{{ url_for('task_list') }}">⬅ Retour à la liste</a>
+    </div>
+</body>
+</html>
