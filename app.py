@@ -6,8 +6,8 @@ app = Flask(__name__)
 # Connexion Azure SQL Database
 server = 'taskbasma.database.windows.net'
 database = 'TaskDB'
-username = 'taskadmin@taskbasma'  # attention au @
-password = 'TON_MOT_DE_PASSE_FORT_ICI'
+username = 'basma'
+password = 'Hamza@1234'
 driver = '{ODBC Driver 17 for SQL Server}'
 
 conn = pyodbc.connect(
