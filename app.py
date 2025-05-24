@@ -3,12 +3,17 @@ import pyodbc
 
 app = Flask(__name__)
 
-# Connexion avec authentification Windows
+# Connexion Azure SQL Database
+server = 'taskbasma.database.windows.net'
+database = 'TaskDB'
+username = 'taskadmin@taskbasma'  # attention au @
+password = 'TON_MOT_DE_PASSE_FORT_ICI'
+driver = '{ODBC Driver 17 for SQL Server}'
+
 conn = pyodbc.connect(
-    'DRIVER={ODBC Driver 17 for SQL Server};SERVER=localhost;DATABASE=TaskDB;Trusted_Connection=yes;'
+    f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 )
 cursor = conn.cursor()
-
 
 @app.route('/')
 def home():
