@@ -8,9 +8,6 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  dockerRegistryServiceConnection: 'taskmanager-acr-connection' # À configurer
-  imageRepository: 'taskmanager'
-  tag: '$(Build.BuildId)'
 
 steps:
 - task: UsePythonVersion@0
@@ -28,13 +25,3 @@ steps:
     pytest tests/ --doctest-modules --junitxml=junit/test-results.xml || true
   displayName: 'Run unit tests'
   condition: succeeded()
-
-- task: Docker@2
-  displayName: 'Build and push Docker image'
-  inputs:
-    containerRegistry: $(dockerRegistryServiceConnection)
-    repository: $(imageRepository)
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
-    tags: |
-      $(tag)
