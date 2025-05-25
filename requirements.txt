@@ -1,5 +1,5 @@
 flask==2.2.5
 werkzeug==2.3.0
 gunicorn
-pyodbc==5.1.0
+pyodbc>=5.2.0
 mysql-connector-python==8.0.27
