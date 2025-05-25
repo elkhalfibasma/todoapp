@@ -1,24 +1,26 @@
 from flask import Flask, render_template, request, redirect, url_for
 import pyodbc
 import os
+from dotenv import load_dotenv
+
+# Charger les variables d’environnement depuis un fichier .env
+load_dotenv()
 
 app = Flask(__name__)
 
+# Chaîne de connexion sécurisée avec variables d’environnement
 connection_string = (
-    f"Server=tcp:taskbasma.database.windows.net,1433;"
-    f"Initial Catalog=TaskDB;"
-    f"Persist Security Info=False;"
-    f"User ID=basma;"
-    f"Password={os.environ.get('DB_PASSWORD')};"
-    f"MultipleActiveResultSets=False;"
-    f"Encrypt=True;"
-    f"TrustServerCertificate=False;"
-    f"Connection Timeout=30;"
+    f"Driver={{ODBC Driver 17 for SQL Server}};"
+    f"Server=tcp:{os.getenv('SQL_SERVER')},1433;"
+    f"Database={os.getenv('SQL_DATABASE')};"
+    f"Uid={os.getenv('SQL_USER')};"
+    f"Pwd={os.getenv('SQL_PASSWORD')};"
+    "Encrypt=yes;"
+    "TrustServerCertificate=no;"
+    "Connection Timeout=30;"
 )
 
-
 def get_db_connection():
-    """Crée et retourne une connexion à la base de données."""
     try:
         conn = pyodbc.connect(connection_string)
         return conn
@@ -27,7 +29,6 @@ def get_db_connection():
 
 @app.route('/test')
 def test():
-    """Route de test sans dépendance à la base de données."""
     return "L'application fonctionne !"
 
 @app.route('/')
@@ -40,7 +41,7 @@ def task_list():
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM Tasks")
-        tasks = [{'id': row[0], 'description': row[1], 'completed': row[2]} for row in cursor.fetchall()]  # Ajuste les indices selon ta table
+        tasks = [{'id': row[0], 'description': row[1], 'completed': row[2]} for row in cursor.fetchall()]
         cursor.close()
         conn.close()
         return render_template('tasks.html', tasks=tasks)
@@ -83,7 +84,7 @@ def edit(id):
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM Tasks WHERE id=?", (id,))
         row = cursor.fetchone()
-        task = {'id': row[0], 'description': row[1], 'completed': row[2]} if row else None  # Ajuste les indices
+        task = {'id': row[0], 'description': row[1], 'completed': row[2]} if row else None
         cursor.close()
         conn.close()
         return render_template('edit.html', task=task)
