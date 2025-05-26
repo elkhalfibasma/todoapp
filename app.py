@@ -3,12 +3,10 @@ import pyodbc
 import os
 from dotenv import load_dotenv
 
-# Charger les variables d’environnement depuis un fichier .env
 load_dotenv()
 
 app = Flask(__name__)
 
-# Chaîne de connexion sécurisée avec variables d’environnement
 connection_string = (
     f"Driver={{ODBC Driver 17 for SQL Server}};"
     f"Server=tcp:{os.getenv('SQL_SERVER')},1433;"
